@@ -1,0 +1,53 @@
+<style>
+  .account-action {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0 20px;
+  }
+  .btn {
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+  .btn.btn-delete {
+    color: #fff;
+    padding: 12px 34px;
+    transition: all ease-in 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #fff;
+    color: {{ block.settings.color }};
+    border: 1px solid{{ block.settings.color }};
+  }
+
+  .btn.btn-delete:hover {
+    color: #fff background-color: {{ block.settings.color }};
+  }
+</style>
+
+<div class="account-action">
+  <button id="btn-delete" class="btn btn-delete">{{ block.settings.btn-delete }}</button>
+</div>
+
+<script>
+  const btnDel = document.querySelector('#btn-delete');
+  btnDel.addEventListener('click', async() => {
+    await fetch('http://localhost:8081/api/customer/{{ customer.id }}', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+    },
+  }).then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+  })
+</script>
+
+{% schema %}
+  {
+    "name": "Delete Account Button",
+    "target": "section",
+    "settings": []
+  }
+{% endschema %}
